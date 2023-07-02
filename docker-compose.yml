@@ -5,14 +5,14 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 80:80
+      - 4680:80
     volumes:
       - ./app:/var/www/html
 
   composer:
     image: composer
     volumes:
-      - .:/app
+      - ./app:/app
     working_dir: /app
     command: composer install
 
