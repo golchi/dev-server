@@ -1,0 +1,40 @@
+version: '3'
+services:
+  php-apache:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    volumes:
+      - ./app:/var/www/html
+
+  composer:
+    image: composer
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: composer install
+
+  mariadb:
+    image: 'mariadb:latest'
+    environment:
+      - MYSQL_ROOT_PASSWORD=your_password
+      - MYSQL_DATABASE=laravel_db
+      - MYSQL_USER=laravel_user
+      - MYSQL_PASSWORD=laravel_password
+    volumes:
+      - './database:/var/lib/mysql'
+    networks:
+      - laravel-network
+      
+  phpmyadmin:
+      image: phpmyadmin/phpmyadmin
+      ports:
+        - 8081:80
+      environment:
+        - PMA_ARBITRARY=1
+        - PMA_HOSTS=php-apache
+networks:
+  laravel-network:
+    driver: bridge
