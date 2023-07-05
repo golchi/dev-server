@@ -1,0 +1,5 @@
+/database/
+/app/vendor/
+/app/composer.lock
+/.idea
+/app/qzen*

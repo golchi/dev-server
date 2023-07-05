@@ -1,2 +1,7 @@
 # dev-server
-AMP server
+AMP Server
+
+- Apache
+- PHP 8
+- Mariadb
+- Phpmyadmin

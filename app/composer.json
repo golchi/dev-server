@@ -1,0 +1,13 @@
+{
+    "name": "aamouzou/app",
+    "require-dev": {
+        "symfony/var-dumper": "^3.4"
+    },
+    "authors": [
+        {
+            "name": "Amen",
+            "email": "aamouzou@choicehomewarranty.com"
+        }
+    ],
+    "require": {}
+}

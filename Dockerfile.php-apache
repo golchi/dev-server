@@ -11,6 +11,10 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd zip
 
+RUN apt-get update \
+    && apt-get install -y sudo
+
+
 # Enable Apache rewrite module
 RUN a2enmod rewrite
 
