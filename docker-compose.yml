@@ -3,38 +3,38 @@ services:
   php-apache:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.php-apache
     ports:
-      - 4680:80
+      - ${APP_PORT}:80
     volumes:
       - ./app:/var/www/html
-
-  composer:
-    image: composer
-    volumes:
-      - ./app:/app
-    working_dir: /app
-    command: composer install
+      - ./conf/apache.conf:/etc/apache2/sites-available/000-default.conf
 
   mariadb:
     image: 'mariadb:latest'
-    environment:
-      - MYSQL_ROOT_PASSWORD=your_password
-      - MYSQL_DATABASE=laravel_db
-      - MYSQL_USER=laravel_user
-      - MYSQL_PASSWORD=laravel_password
     volumes:
       - './database:/var/lib/mysql'
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+
     networks:
       - laravel-network
       
   phpmyadmin:
       image: phpmyadmin/phpmyadmin
       ports:
-        - 8081:80
+        - ${PMA_PORT}:80
       environment:
-        - PMA_ARBITRARY=1
-        - PMA_HOSTS=php-apache
+        #- PMA_ARBITRARY=1
+        PMA_HOST: mariadb
+        PMA_USER: ${MARIADB_USER}
+        PMA_PASSWORD: ${MARIADB_PASSWORD}
+      networks:
+        - laravel-network
+
 networks:
   laravel-network:
     driver: bridge
